@@ -1,12 +1,6 @@
-import express from "express";
-import router from "./routes";
+import app from "./app";
+import config from "./config/index";
 
-const app = express();
-
-const port = 3000;
-
-app.use("/", router);
-
-app.listen(port, () => {
-  console.log(`Server started on port: ${port}`);
+app.listen(config.server.port, () => {
+  console.log(`Server started on port: ${config.server.port}`);
 });
