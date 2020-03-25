@@ -7,9 +7,9 @@ import {
 } from "../controllers/todo";
 
 export default function(router) {
-  router.get("/", getTodos);
-  router.get("/:id", getTodo);
-  router.post("/", addTodo);
-  router.delete("/:id", deleteTodo);
-  router.put("/:id", updateTodo);
+  router.get("/todos", getTodos);
+  router.get("/todos/:id", getTodo);
+  router.post("/todos", addTodo);
+  router.delete("/todos/:id", deleteTodo);
+  router.put("/todos/:id", updateTodo);
 }
