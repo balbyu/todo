@@ -1,10 +1,17 @@
+import Todo from "../models/Todo";
+
 /**
  * Returns all Todos.
  * @param {*} req the http(s) request object
  * @param {*} res the http(s) response object
  */
 export const getTodos = async (req, res) => {
-  res.send("All Todos");
+  try {
+    const todos = await Todo.findAll();
+    res.send(todos);
+  } catch (error) {
+    console.log("Oops, didnt work");
+  }
 };
 
 /**
@@ -32,8 +39,18 @@ export const deleteTodo = (req, res) => {
  * @param {*} req the http(s) request object
  * @param {*} res the http(s) response object
  */
-export const addTodo = (req, res) => {
-  res.send("Add new Todo");
+export const addTodo = async (req, res) => {
+  const { name } = req.body;
+
+  try {
+    if (name && name.length > 0) {
+      const newTodo = await Todo.create({ name });
+      res.send(newTodo);
+      console.log("New todo added:", newTodo);
+    }
+  } catch (error) {
+    res.status(400).send(error);
+  }
 };
 
 /**
