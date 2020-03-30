@@ -1,4 +1,4 @@
-import Todo from "../models/Todo";
+import todoService from "../database/todo";
 
 /**
  * Returns all Todos.
@@ -7,10 +7,10 @@ import Todo from "../models/Todo";
  */
 export const getTodos = async (req, res) => {
   try {
-    const todos = await Todo.findAll();
-    res.send(todos);
+    const todos = await todoService.all();
+    res.status(200).json(todos);
   } catch (error) {
-    console.log("Oops, didnt work");
+    res.status(400).send(error);
   }
 };
 
@@ -19,9 +19,14 @@ export const getTodos = async (req, res) => {
  * @param {*} req the http(s) request object
  * @param {*} res the http(s) response object
  */
-export const getTodo = (req, res) => {
-  const id = Number(req.params.id);
-  res.send(`Get Todo w/ ID: ${id}`);
+export const getTodo = async (req, res) => {
+  try {
+    const todo = await todoService.fetch(req.params.id);
+    console.log(todo);
+    res.status(200).send(todo.dataValues);
+  } catch (error) {
+    res.status(400).send(error);
+  }
 };
 
 /**
@@ -29,9 +34,13 @@ export const getTodo = (req, res) => {
  * @param {*} req the http(s) request object
  * @param {*} res the http(s) response object
  */
-export const deleteTodo = (req, res) => {
-  const id = Number(req.params.id);
-  res.send(`Delte Todo w/ ID: ${id}`);
+export const deleteTodo = async (req, res) => {
+  try {
+    await todoService.delete(req.params.id);
+    res.status(200).send("Successfully deleted");
+  } catch (error) {
+    res.status(400).send(error);
+  }
 };
 
 /**
@@ -40,14 +49,9 @@ export const deleteTodo = (req, res) => {
  * @param {*} res the http(s) response object
  */
 export const addTodo = async (req, res) => {
-  const { name } = req.body;
-
   try {
-    if (name && name.length > 0) {
-      const newTodo = await Todo.create({ name });
-      res.send(newTodo);
-      console.log("New todo added:", newTodo);
-    }
+    const newTodo = await todoService.create(req.body);
+    res.status(200).json(newTodo);
   } catch (error) {
     res.status(400).send(error);
   }
@@ -58,7 +62,22 @@ export const addTodo = async (req, res) => {
  * @param {*} req the http(s) request object
  * @param {*} res the http(s) response object
  */
-export const updateTodo = (req, res) => {
-  const id = Number(req.params.id);
-  res.send(`Update Todo w/ ID: ${id}`);
+export const updateTodo = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const { name, completed } = req.body;
+
+    const payload = {
+      id,
+      values: {
+        name,
+        completed
+      }
+    };
+
+    const todo = await todoService.update(payload);
+    res.status(200).send(todo);
+  } catch (error) {
+    res.status(400).send(error);
+  }
 };
