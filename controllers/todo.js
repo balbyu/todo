@@ -8,7 +8,7 @@ import todoService from "../database/todo";
 export const getTodos = async (req, res) => {
   try {
     const todos = await todoService.all();
-    res.status(200).json(todos);
+    res.status(200).send(todos);
   } catch (error) {
     res.status(400).send(error);
   }
@@ -22,7 +22,6 @@ export const getTodos = async (req, res) => {
 export const getTodo = async (req, res) => {
   try {
     const todo = await todoService.fetch(req.params.id);
-    console.log(todo);
     res.status(200).send(todo.dataValues);
   } catch (error) {
     res.status(400).send(error);
@@ -37,7 +36,7 @@ export const getTodo = async (req, res) => {
 export const deleteTodo = async (req, res) => {
   try {
     await todoService.delete(req.params.id);
-    res.status(200).send("Successfully deleted");
+    res.status(200).send(`Successfully deleted Todo #`);
   } catch (error) {
     res.status(400).send(error);
   }

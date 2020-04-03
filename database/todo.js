@@ -1,7 +1,11 @@
 import Todo from "../models/Todo";
+
 export default {
+  /**
+   *  Returns all Todo objects in the database. If the returned value is not an array or
+   *  if there are no values in the array, an error is thrown.
+   */
   async all() {
-    // Retrieves all todos
     try {
       const todos = await Todo.findAll();
       if (Array.isArray(todos) || todos.length > 0) {
@@ -13,8 +17,12 @@ export default {
       throw error;
     }
   },
+  /**
+   * Returns a single Todo object from the database based on it's ID. If the ID is blank, NaN,
+   * or the database doesn't contain an object with the provided ID, an error is thrown.
+   * @param {*} id - the ID of the Todo to retrieve
+   */
   async fetch(id) {
-    // Fetches todo by id
     id = Number(id);
     try {
       if (!id || isNaN(id)) {
@@ -31,8 +39,12 @@ export default {
       throw error;
     }
   },
+  /**
+   * Creates a Todo object with the provided name. If the name is blank or empty, an
+   * error is thrown.
+   * @param {*} name - the name of the Todo
+   */
   async create({ name }) {
-    // Create todo with payload
     try {
       if (name && name.length > 0) {
         const todo = await Todo.create({ name });
@@ -44,8 +56,11 @@ export default {
       throw error;
     }
   },
+  /**
+   * Deletes a Todo from the database based on it's ID.
+   * @param {*} id
+   */
   async delete(id) {
-    // Delete todo by id
     try {
       const todo = await this.fetch(id);
       await todo.destroy();
@@ -53,12 +68,14 @@ export default {
       throw error;
     }
   },
+  /**
+   * Updates an existing Todo with new information based on the provided payload.
+   * @param {*} payload - the ID and values to update in the Todo object
+   */
   async update({ id, values }) {
-    // Updates todo by id
     try {
       const todo = await this.fetch(id);
       await todo.update(values);
-
       return todo;
     } catch (error) {
       throw error;

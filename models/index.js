@@ -1,9 +1,8 @@
-import * as models from "./";
 import db from "../database";
 
 export const initialize = async () => {
-  await db.sync({ force: true });
-  console.log("Tables have synced!");
+  await db.sync();
+  console.log("All Sequelize models have synced.");
 };
 
 export default {
