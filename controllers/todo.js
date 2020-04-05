@@ -1,4 +1,5 @@
 import todoService from "../database/todo";
+import { parseQueryParams } from "../utils";
 
 /**
  * Returns all Todos.
@@ -7,9 +8,12 @@ import todoService from "../database/todo";
  */
 export const getTodos = async (req, res) => {
   try {
-    const todos = await todoService.all();
+    const validColumns = ["id", "name", "completed", "createdAt", "updatedAt"];
+    const order = parseQueryParams(req.query, validColumns);
+    const todos = await todoService.all({ order });
     res.status(200).send(todos);
   } catch (error) {
+    console.error(error);
     res.status(400).send(error);
   }
 };
@@ -70,8 +74,8 @@ export const updateTodo = async (req, res) => {
       id,
       values: {
         name,
-        completed
-      }
+        completed,
+      },
     };
 
     const todo = await todoService.update(payload);

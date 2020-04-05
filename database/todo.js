@@ -5,9 +5,10 @@ export default {
    *  Returns all Todo objects in the database. If the returned value is not an array or
    *  if there are no values in the array, an error is thrown.
    */
-  async all() {
+
+  async all(args) {
     try {
-      const todos = await Todo.findAll();
+      const todos = await Todo.findAll(args);
       if (Array.isArray(todos) || todos.length > 0) {
         return todos;
       } else {
@@ -80,5 +81,5 @@ export default {
     } catch (error) {
       throw error;
     }
-  }
+  },
 };
