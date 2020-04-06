@@ -1,4 +1,5 @@
 import { DataTypes } from "sequelize";
+import User from "./User";
 import db from "../database";
 
 const Todo = db.define(
@@ -6,19 +7,20 @@ const Todo = db.define(
   {
     name: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     completed: {
       type: DataTypes.BOOLEAN,
-      defaultValue: false
-    }
+      defaultValue: false,
+    },
   },
   {
-    timestamps: true
+    timestamps: true,
   }
 );
 
-Todo.hasMany(Todo, { as: "Todos", allowNull: true });
-Todo.belongsTo(Todo, { as: "Parent", allowNull: true });
+Todo.hasMany(Todo, { as: "todos", allowNull: true });
+Todo.belongsTo(Todo, { as: "parent", allowNull: true });
+Todo.belongsTo(User, { as: "user", allowNull: false });
 
 export default Todo;
