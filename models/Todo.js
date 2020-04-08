@@ -1,5 +1,4 @@
 import { DataTypes } from "sequelize";
-import User from "./User";
 import db from "../database";
 
 const Todo = db.define(
@@ -21,6 +20,5 @@ const Todo = db.define(
 
 Todo.hasMany(Todo, { as: "todos", allowNull: true });
 Todo.belongsTo(Todo, { as: "parent", allowNull: true });
-Todo.belongsTo(User, { as: "user", allowNull: false });
 
 export default Todo;

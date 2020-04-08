@@ -6,5 +6,5 @@ export const initialize = async () => {
 };
 
 export default {
-  initialize
+  initialize,
 };

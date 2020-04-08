@@ -38,10 +38,6 @@ const User = db.define("User", {
       },
     },
   },
-  salt: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
 });
 
 User.hasMany(Todo, { as: "todos", allowNull: true });

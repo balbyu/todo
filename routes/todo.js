@@ -1,15 +1,18 @@
+import passport from "passport";
 import {
   getTodos,
   getTodo,
   addTodo,
   deleteTodo,
-  updateTodo
+  updateTodo,
 } from "../controllers/todo";
 
-export default function(router) {
-  router.get("/todos", getTodos);
-  router.get("/todos/:id", getTodo);
-  router.post("/todos", addTodo);
-  router.delete("/todos/:id", deleteTodo);
-  router.put("/todos/:id", updateTodo);
+const opts = { session: false };
+
+export default function (router) {
+  router.get("/todos", passport.authenticate("jwt", opts), getTodos);
+  router.get("/todos/:id", passport.authenticate("jwt", opts), getTodo);
+  router.post("/todos", passport.authenticate("jwt", opts), addTodo);
+  router.delete("/todos/:id", passport.authenticate("jwt", opts), deleteTodo);
+  router.put("/todos/:id", passport.authenticate("jwt", opts), updateTodo);
 }
