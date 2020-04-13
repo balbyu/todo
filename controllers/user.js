@@ -1,5 +1,4 @@
 import userService from "../database/user";
-import pasport from "passport";
 import argon2 from "argon2";
 import jwt from "jsonwebtoken";
 
@@ -26,10 +25,10 @@ export const create = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const { username, password } = req.body;
-    if (!username) throw new Error("A username was not provided");
     if (!password) throw new Error("No password was provided");
 
     const user = await userService.fetchByUsername(username);
+    console.log(username, password);
     const verified = await argon2.verify(user.dataValues.password, password);
 
     if (verified) {

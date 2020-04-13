@@ -12,7 +12,6 @@ const opts = {
 };
 
 export default new Strategy(opts, async (payload, done) => {
-  console.log(payload, payload.data, payload.data.id);
   try {
     const user = await userService.fetchById(payload.data.id);
     if (user) {

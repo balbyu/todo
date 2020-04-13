@@ -1,4 +1,4 @@
-import User from "../models/User";
+import { User } from "../models";
 
 export default {
   async all() {
@@ -6,7 +6,6 @@ export default {
       const users = await User.findAll({
         attributes: { exclude: ["password"] },
       });
-      console.log(users);
       if (Array.isArray(users) || users.length > 0) {
         return users;
       } else {
@@ -18,7 +17,7 @@ export default {
   },
   async fetchByUsername(username) {
     try {
-      if (!username) throw new Error("Name is empty.");
+      if (!username) throw new Error("A username was not provided.");
       const user = await User.findOne({
         where: { username },
       });
@@ -29,9 +28,8 @@ export default {
   },
   async fetchById(id) {
     try {
-      if (!id) throw new Error("Id is undefined.");
+      if (!id) throw new Error("An ID was not provided.");
       id = Number(id);
-      console.log(id);
       const user = await User.findByPk(id);
       return user;
     } catch (error) {
