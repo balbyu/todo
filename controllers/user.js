@@ -2,6 +2,11 @@ import userService from "../database/user";
 import argon2 from "argon2";
 import jwt from "jsonwebtoken";
 
+/**
+ * Fetches and returns all Users.
+ * @param {*} req the http(s) request object
+ * @param {*} res the http(s) response object
+ */
 export const getUsers = async (req, res) => {
   try {
     const users = await userService.all();
@@ -12,6 +17,11 @@ export const getUsers = async (req, res) => {
   }
 };
 
+/**
+ * Creates and returns a new User.
+ * @param {*} req the http(s) request object
+ * @param {*} res the http(s) response object
+ */
 export const create = async (req, res) => {
   try {
     const user = await userService.create(req.body);
@@ -22,13 +32,17 @@ export const create = async (req, res) => {
   }
 };
 
+/**
+ * Verifies the credentials passed in for the user, returning a signed JWT Token if valid.
+ * @param {*} req the http(s) request object
+ * @param {*} res the http(s) response object
+ */
 export const login = async (req, res) => {
   try {
     const { username, password } = req.body;
     if (!password) throw new Error("No password was provided");
 
     const user = await userService.fetchByUsername(username);
-    console.log(username, password);
     const verified = await argon2.verify(user.dataValues.password, password);
 
     if (verified) {

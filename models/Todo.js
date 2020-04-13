@@ -18,7 +18,7 @@ export default {
   associations() {
     db.models.Todo.hasMany(db.models.Todo, { as: "todos", allowNull: true });
     db.models.Todo.belongsTo(db.models.Todo, { as: "parent", allowNull: true });
-    db.models.Todo.belongsTo(db.models.User, { as: "user", allowNull: false });
+    //db.models.Todo.belongsTo(db.models.User, { as: "user", allowNull: false });
   },
 };
 

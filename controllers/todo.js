@@ -49,7 +49,7 @@ export const deleteTodo = async (req, res) => {
     const todoId = req.params.id;
     const userId = req.user.dataValues.id;
     await todoService.delete({ todoId, userId });
-    res.status(200).send(`Successfully deleted Todo #`);
+    res.status(200).send(`Successfully deleted Todo ${todoId}`);
   } catch (error) {
     res.status(400).send(error);
   }
@@ -91,7 +91,7 @@ export const updateTodo = async (req, res) => {
       },
     };
 
-    const todo = await todoService.update({ payload, userId });
+    const todo = await todoService.update({ ...payload, userId });
     res.status(200).send(todo);
   } catch (error) {
     res.status(400).send(error);

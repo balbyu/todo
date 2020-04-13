@@ -42,14 +42,17 @@ export default {
   },
   beforeCreate: async (user, options) => {
     try {
-      console.log("I am the before create");
       user.password = await argon2.hash(user.password);
     } catch (error) {
       throw error;
     }
   },
   associations() {
-    db.models.User.hasMany(db.models.Todo, { as: "todos", allowNull: true });
+    db.models.User.hasMany(db.models.Todo, {
+      as: "todos",
+      allowNull: true,
+      foreignKey: "userId",
+    });
   },
 };
 
