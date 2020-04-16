@@ -18,9 +18,7 @@ app.use("/", router);
 
 (async () => {
   try {
-    // Await for DB authentication
     await database.authenticate;
-    // Await for model initialization
     await models.initialize();
   } catch (err) {
     throw err;

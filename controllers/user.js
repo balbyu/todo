@@ -47,14 +47,13 @@ export const login = async (req, res) => {
 
     if (verified) {
       delete user.dataValues.password;
-
       const token = jwt.sign({ data: user }, process.env.TOKEN_SECRET, {
         expiresIn: "1d",
       });
 
       res.status(200).send({ user, token });
     } else {
-      throw new Errorr("Your username or password did not match.");
+      throw new Errorr("Username and password did not match.");
     }
   } catch (error) {
     console.error(error);

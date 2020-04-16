@@ -2,7 +2,7 @@ import todoService from "../database/todo";
 import { parseQueryParams } from "../utils";
 
 /**
- * Returns all Todos.
+ * Returns all Todos from the database. This route takes an optional request query string to return the Todos in a requested order.
  * @param {*} req the http(s) request object
  * @param {*} res the http(s) response object
  */
@@ -15,7 +15,6 @@ export const getTodos = async (req, res) => {
       order,
       where: { userId },
     });
-
     res.status(200).send(todos);
   } catch (error) {
     console.error(error);
@@ -35,6 +34,7 @@ export const getTodo = async (req, res) => {
     const todo = await todoService.fetch({ todoId, userId });
     res.status(200).send(todo.dataValues);
   } catch (error) {
+    console.error(error);
     res.status(400).send(error);
   }
 };
@@ -51,6 +51,7 @@ export const deleteTodo = async (req, res) => {
     await todoService.delete({ todoId, userId });
     res.status(200).send(`Successfully deleted Todo ${todoId}`);
   } catch (error) {
+    console.error(error);
     res.status(400).send(error);
   }
 };
@@ -67,6 +68,7 @@ export const addTodo = async (req, res) => {
     const newTodo = await todoService.create({ ...payload, userId });
     res.status(200).json(newTodo);
   } catch (error) {
+    console.error(error);
     res.status(400).send(error);
   }
 };
@@ -80,9 +82,7 @@ export const updateTodo = async (req, res) => {
   try {
     const userId = req.user.dataValues.id;
     const todoId = req.params.id;
-
     const { name, completed } = req.body;
-
     const payload = {
       todoId,
       values: {
@@ -94,6 +94,7 @@ export const updateTodo = async (req, res) => {
     const todo = await todoService.update({ ...payload, userId });
     res.status(200).send(todo);
   } catch (error) {
+    console.error(error);
     res.status(400).send(error);
   }
 };

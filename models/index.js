@@ -6,9 +6,8 @@ export const Todo = db.define("Todo", todoModel.dataValues, todoModel.options);
 export const User = db.define("User", userModel.dataValues);
 
 /**
- * Init
+ * Initalizes the database.
  */
-
 export const initialize = async () => {
   await db.sync();
   console.log("All Sequelize models have synced.");
@@ -17,14 +16,12 @@ export const initialize = async () => {
 /**
  * Associations
  */
-
 todoModel.associations();
 userModel.associations();
 
 /**
  * Hooks
  */
-
 User.beforeCreate(userModel.beforeCreate);
 
 export default {
