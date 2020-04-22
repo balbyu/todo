@@ -40,20 +40,26 @@ export const create = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const { username, password } = req.body;
-    if (!password) throw new Error("No password was provided");
+
+    if (!username || !password) {
+      throw new Error("A username and password must be provided.");
+    }
 
     const user = await userService.fetchByUsername(username);
-    const verified = await argon2.verify(user.dataValues.password, password);
 
-    if (verified) {
-      delete user.dataValues.password;
-      const token = jwt.sign({ data: user }, process.env.TOKEN_SECRET, {
-        expiresIn: "1d",
-      });
+    if (user) {
+      const verified = await argon2.verify(user.dataValues.password, password);
 
-      res.status(200).send({ user, token });
+      if (verified) {
+        delete user.dataValues.password;
+        const token = jwt.sign({ data: user }, process.env.TOKEN_SECRET, {
+          expiresIn: "1d",
+        });
+
+        res.status(200).send({ user, token });
+      }
     } else {
-      throw new Errorr("Username and password did not match.");
+      res.status(401).send("Unauthorized");
     }
   } catch (error) {
     console.error(error);
