@@ -66,7 +66,7 @@ export const addTodo = async (req, res) => {
     const userId = req.user.dataValues.id;
     const payload = req.body;
     const newTodo = await todoService.create({ ...payload, userId });
-    res.status(200).json(newTodo);
+    res.status(200).send(newTodo);
   } catch (error) {
     console.error(error);
     res.status(400).send(error);
