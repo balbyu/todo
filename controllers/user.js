@@ -18,6 +18,29 @@ export const getUsers = async (req, res) => {
 };
 
 /**
+ *
+ * @param {*} req
+ * @param {*} res
+ */
+export const validate = async (req, res) => {
+  try {
+    const authHeader = req.headers["authorization"];
+
+    if (!authHeader) throw new Error("Header contains no token");
+
+    const { 1: token } = authHeader.split(" ");
+    const decrypted = jwt.verify(token, process.env.TOKEN_SECRET);
+
+    if (!decrypted) throw new Error("Token was invalid.");
+
+    res.status(200).send(decrypted.data);
+  } catch (error) {
+    console.error(error);
+    res.status(400).send(error);
+  }
+};
+
+/**
  * Creates and returns a new User.
  * @param {*} req the http(s) request object
  * @param {*} res the http(s) response object
