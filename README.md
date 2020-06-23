@@ -1,12 +1,20 @@
-# Todo - a (private) Todo backend
+# Todo Server - A Private Todo Backend
 
-(･ิL_･ิ)
+A simple backend component for a Todo application.
+
+See [Todo-Client](https://github.com/balbyu/todo-client) for presentation component
+
+The goal of this project was to develop the backend portion of a todo application with a couple of friends, rather than following some tutorial. Things to note about this code vs. what you might find in tutorials:
+
+* Exclusively use ES6  with Async/Await
+* Seperation of Express API concerns from networking
+* Utilize Express Router to decouple routes
+* Use a transpiler (Babel) to allow current Javascript syntax
+* Use controllers to handle flow of information from the route to the database
 
 ## Setup
 
-### Server
-
-To run the Todo server, you will need PostgreSQL (we recommend using [Docker](https://hackernoon.com/dont-install-postgres-docker-pull-postgres-bee20e200198)) and the latest version of Node.js. If your local Postgres configuration differs from `server/config/default.toml`, you can maintain your own configuration file by creating a `dev.toml` in the same directory. All database connections will use `dev.toml` if present. 
+To run the Todo server, you will need PostgreSQL (we recommend using [Docker](https://hackernoon.com/dont-install-postgres-docker-pull-postgres-bee20e200198)) and the latest version of Node.js.
 
 1) Install the required dependencies of the root directory if you haven't already:
 ```bash
